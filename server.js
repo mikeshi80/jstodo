@@ -112,12 +112,17 @@ app.post('/login', function(req, res) {
                 res.render('login.jade');
             } else if (user.password == req.body.password) {
                 req.session.user = user;
-                res.send('Login successfully with user name ' + req.body.username);
+                res.redirect('/');
             } else {
                 res.send('Login failed, wrong password');
             }
         }
     });
+});
+
+app.get('/logout', authRequired, function(req, res) {
+    req.session.destroy();
+    res.redirect('/');
 });
 
 app.listen(3132);
