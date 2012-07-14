@@ -1,0 +1,22 @@
+html
+  head
+    title List all TO DO for #{username}
+  body
+    #container
+      table(border=1)
+        tr
+          th Content
+          th Status
+          th Delete
+        each todo in todoes
+          tr
+            td=todo.content
+            td
+              if todo.status == 'Active'
+                input(type='button', onclick='done', value=todo.status)
+              else
+                #{todo.status}
+            td
+              input(type='button', onclick='delete(#{todo._id})',value='Delete')
+            
+

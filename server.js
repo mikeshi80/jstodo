@@ -7,9 +7,8 @@ var app = express(
     express.logger()
 );
 
-//app.engine('.html', require('jade').__express);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+//app.set('views', __dirname + '/views');
+//app.set('view engine', 'jade');
 
 app.configure(function () {
     app.use(express.errorHandler({
@@ -27,11 +26,39 @@ app.on('close', function(errno) {
     db.disconnect(function(err){});
 });
 
-app.get('/', function(req, res) {
-    db.addToDo('mike', 'node demo', function(err) {
-        if(err) {console.log('error to add, ' + err);}
+function authRequired(req, res, next) {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
+
+app.get('/', authRequired, function(req, res) {
+    db.listToDo(req.session.user._id, function(err, todoes) {
+        if (err) {
+            console.log('failed to list the todo, ' + err);
+            res.send('list failed');
+        } else {
+            res.render('list.jade', {username: req.session.user.name, todoes: todoes});
+        }
     });
-    res.send('Hello world');
+});
+
+app.get('/add', authRequired, function(req, res) {
+    res.render('add.jade');
+});
+
+app.post('/add', authRequired, function(req, res) {
+    db.addToDo(req.session.user._id, req.body.content, function(err) {
+        if (err) {
+            console.log('Add To Do to DB failed, ' + err);
+            res.redirect('/add');
+        } else {
+            res.redirect('/');
+        }
+    });
 });
 
 app.get('/register', function(req, res) {
@@ -43,6 +70,7 @@ app.post('/register', function(req, res) {
     db.addUser(req.body.username, req.body.password, function(err, user) {
         if (err) {
             console.log('create user failed');
+            res.redirect('/register');
         } else {
             res.send('Register ' + user.name + ' success, id is ' + user._id);
         }
@@ -57,7 +85,7 @@ app.post('/login', function(req, res) {
     db.findUserByName(req.body.username, function(err, user) {
         if (err) {
             console.log('unknown error');
-            res.render('login.jade');
+            res.redirect('/login');
         } else {
             if (user==null) {
                 console.log('cannot find the user by name ' + req.body.username);
