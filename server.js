@@ -61,6 +61,26 @@ app.post('/add', authRequired, function(req, res) {
     });
 });
 
+app.get('/done/:id', authRequired, function(req, res) {
+    db.editToDo(req.params.id, null, 'Done', function(err) {
+        if (err) {
+            console.log('make the todo done err, ' + err);
+            res.redirect('/');
+        } else {
+            res.redirect('/');
+        }
+    });
+});
+
+app.get('/delete/:id', authRequired, function(req, res) {
+    db.deleteToDo(req.params.id, function(err) {
+        if (err) {
+            console.log('delete the todo failed, ' + err);
+        }
+        res.redirect('/');
+    });
+});
+
 app.get('/register', function(req, res) {
     res.render('register.jade');
 });
