@@ -1,5 +1,6 @@
 var express = require("express");
 var db= require("./db");
+var path = require('path');
 
 db.connect();
 
@@ -10,6 +11,8 @@ var app = express(
 //app.set('views', __dirname + '/views');
 //app.set('view engine', 'jade');
 
+app.set('port', 3132);
+
 app.configure(function () {
     app.use(express.errorHandler({
         dumpExceptions: true,
@@ -19,6 +22,8 @@ app.configure(function () {
     app.use(express.session());
     app.use(express.bodyParser());
     app.use(express.methodOverride());
+    app.use(require('less-middleware')({src: __dirname + '/statics/styles'}));
+    app.use(express.static(__dirname + path.sep + 'statics'));
     app.use(app.router);
 });
 
@@ -125,7 +130,7 @@ app.get('/logout', authRequired, function(req, res) {
     res.redirect('/');
 });
 
-app.listen(3132);
+app.listen(app.get('port'));
 
-console.log('Running!!!');
+console.log('Running at ' + app.get('port') + '!!!');
 
