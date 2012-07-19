@@ -23,7 +23,7 @@ app.configure(function () {
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(require('less-middleware')({src: __dirname + '/statics/styles'}));
-    app.use(express.static(__dirname + path.sep + 'statics'));
+    app.use(express.static(__dirname + '/statics'));
     app.use(app.router);
 });
 
