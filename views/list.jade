@@ -1,26 +1,27 @@
-html
-  head
-    title List all TO DO for #{username}
-  body
-    #container
-      p
-        a(href='/logout') Logout
-      p
-        a(href='/add') Add the new todo
-      table(border=1)
-        tr
-          th Content
-          th Status
-          th Delete
-        each todo in todoes
-          tr
-            td=todo.content
-            td
-              if todo.status == 'Active'
-                a(href='/done/#{todo._id}') Make it done
-              else
-                | #{todo.status}
-            td
-              a(href='/delete/#{todo._id}') Delete
-            
+extends layout
+block content
+    .row
+        p.span3
+            a.btn(href='/add') Add the new todo
+    .row.todo-list
+        if todoes.length > 0
+            table.span6(border=1)
+                tr
+                    th Content
+                    th Status
+                    th Delete
+                each todo in todoes
+                    tr
+                        td=todo.content
+                        td
+                            if todo.status == 'Active'
+                                a.btn(href='/done/#{todo._id}') Make it done
+                            else
+                                | #{todo.status}
+                        td
+                            a.btn(href='/delete/#{todo._id}') Delete
+        else
+            h1.no-record.span6.well.
+                There is no record now.
+
 

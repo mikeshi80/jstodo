@@ -1,11 +1,9 @@
-doctype 5
-html
-    head
-        title="Login"
-    body
-        h1 User Login
-        #container
-            form(method="POST")
+extends layout
+block content
+    .row
+        .span4
+            h1 User Login
+            form.well(method="POST")
                 p
                     label User Name
                     input(name="username", id="username", placeholder='enter user name here')

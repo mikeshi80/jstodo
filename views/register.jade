@@ -1,11 +1,9 @@
-doctype 5
-html
-    head
-        title="Register the new account"
-    body
-        h1 Register the new account for To Do JS
-        #container
-            form(method="POST")
+extends layout
+block content
+    .row
+        .span4
+            h1 Register the new account
+            form.well(method="POST")
                 p
                     label User Name
                     input(name="username", id="username")
@@ -13,5 +11,4 @@ html
                     label Password
                     input(type="password", name="password", id="password")
                 input(type="submit", value="Register")
-            
 

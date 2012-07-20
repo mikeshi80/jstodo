@@ -46,7 +46,8 @@ app.get('/', authRequired, function(req, res) {
             console.log('failed to list the todo, ' + err);
             res.send('list failed');
         } else {
-            res.render('list.jade', {username: req.session.user.name, todoes: todoes});
+            res.render('list.jade', {title: 'List the ToDoes for ' + req.session.user.name,
+                username: req.session.user.name, todoes: todoes});
         }
     });
 });
@@ -87,7 +88,7 @@ app.get('/delete/:id', authRequired, function(req, res) {
 });
 
 app.get('/register', function(req, res) {
-    res.render('register.jade');
+    res.render('register.jade', {title: 'Register a new account'});
 });
 
 app.post('/register', function(req, res) {
@@ -103,7 +104,7 @@ app.post('/register', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
-    res.render('login.jade');
+    res.render('login.jade', {title: 'Login'});
 });
 
 app.post('/login', function(req, res) {

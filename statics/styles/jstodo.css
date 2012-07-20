@@ -1,0 +1,16 @@
+.header {
+    background-image: url(../images/header.jpg);
+    background-repeat: no-repeat;
+    min-height: 160px;
+}
+
+.no-record {
+    height: 400px;
+    margin-top: 15px;
+}
+
+.todo-list {
+    min-height: 400px;
+    margin-top: 15px;
+}
+
