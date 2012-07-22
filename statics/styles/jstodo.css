@@ -14,3 +14,10 @@
     margin-top: 15px;
 }
 
+.user-info {
+    float: right;
+}
+
+.user-nav {
+    margin-left: 10px;
+}

@@ -13,6 +13,10 @@ html
         .container
             header.header
                 block header
+                    .user-info
+                        if user
+                            p Hi, #{user.name}
+                                a.btn.btn-primary.user-nav(href='/logout') Logout
             .content
                 block content
             footer.footer

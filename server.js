@@ -25,6 +25,7 @@ app.configure(function () {
     app.use(require('less-middleware')({src: __dirname + '/statics/styles'}));
     app.use(express.static(__dirname + '/statics'));
     app.use(app.router);
+    app.locals.user = null;
 });
 
 app.on('close', function(errno) {
@@ -47,7 +48,7 @@ app.get('/', authRequired, function(req, res) {
             res.send('list failed');
         } else {
             res.render('list.jade', {title: 'List the ToDoes for ' + req.session.user.name,
-                username: req.session.user.name, todoes: todoes});
+                user: req.session.user, todoes: todoes});
         }
     });
 });
